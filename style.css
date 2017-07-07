@@ -1,0 +1,184 @@
+/**** src/styles.css ***/
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+.header {
+    width: 100%;
+    border: solid 1px;
+    height: 150px;
+    background: antiquewhite
+}
+
+.logo {
+    height: 75px;
+    /*padding-left: 16%;*/
+}
+
+.headerStyle {
+    padding-left: 31%;
+    /* height: 204%; */
+    width: 73%;
+    padding-right: 0;
+}
+
+.headerTabs {
+    font-size: 17px;
+}
+
+.book-body {
+    height: 600px;
+    background-color: antiquewhite;
+    margin-left: 0;
+    /* margin-right: 4.5%; */
+    width: 66%;
+}
+
+.footer {
+    background-color: antiquewhite;
+    min-height: 200px
+}
+
+.footerLink {
+    font-size: 17px;
+    color: darkblue;
+}
+
+.carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+    width: 90%;
+    height: 580px;
+    margin: auto;
+}
+
+.userList {
+    width: 80%;
+    margin-left: 9%;
+    margin-top: 3%;
+}
+
+.register {
+    min-width: 25%;
+    max-width: 50%;
+    margin-left: 15%;
+}
+
+.list-inline {
+    font-size: 17px;
+    margin-left: 4%;
+    font-weight: bold;
+}
+
+.table tr.active td {
+    background-color: #123456 !important;
+    color: white;
+}
+/*.ng-valid[required] {
+  border: 1px solid #42A948; 
+}
+.ng-invalid {
+  border: 1px solid #a94442; 
+}*/
+.font-15 {
+    font-size: 15px;
+}
+
+.list-inline li button:active {
+    background-color: darkgoldenrod;
+}
+
+.ng-valid[required], .ng-valid.required {
+    border-left: 5px solid #42A948;
+ /* green */
+}
+
+.ng-invalid:not(form) {
+  /*border-left: 5px solid #a94442;  red */
+}
+
+pagination-controls {
+    font-size: 17px
+}
+
+body .ui-datatable .ui-datatable-data tr.ui-widget-content.ui-state-highlight {
+    background-color: #0275d8;
+    border-color: #0267bf;
+}
+
+.prime_table_css {
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    z-index: 0;
+}
+
+.addColorClass {
+    color: white !important;
+}
+
+/*progressbar*/
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+	/*CSS counters to number the steps*/
+    counter-reset: step;
+}
+
+#progressbar li {
+    list-style-type: none;
+    color: black;
+    text-transform: uppercase;
+    font-size: 9px;
+    width: 13.33%;
+    float: left;
+    position: relative;
+}
+
+#progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 16px;
+    line-height: 16px;
+    display: block;
+    font-size: 0px;
+    color: #333;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 52px;
+	/*margin: 0 auto 5px auto;*/
+}
+/*progressbar connectors*/
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: #eee;
+    position: absolute;
+    left: -95%;
+    top: 9px;
+    z-index: -1;
+ /*put it behind the numbers*/
+}
+
+#progressbar li:first-child:after {
+	/*connector not needed before the first step*/
+    content: none;
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before {
+    background: #27AE60;
+    color: black;
+}
+
+.viewOverflow {
+    overflow: visible
+}
+
+.newClass {
+    background-color: #eee;
+}
+
+.viewUser {
+    padding-left: 15%;
+    font-weight: 100;
+}
