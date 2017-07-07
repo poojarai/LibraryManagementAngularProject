@@ -1,0 +1,17 @@
+.view_book_detail {
+    padding-left: 3%;
+    font-weight: 100
+}
+
+div.guestTab ul li button.active {
+    background-color: #32140b;
+    color: white;
+}
+
+div.guestTab ul li button {
+    border-radius: 0;
+}
+
+div.guestTab ul li {
+    margin-left: -0.8%;
+}

@@ -1,0 +1,117 @@
+<div style="min-height: 320px">
+<div class="container">
+    <div class="row">
+        <div class="span12" style="max-width: 97%;">
+            <div class="" id="loginModal">
+                <div class="modal-body">
+                    <div class="well">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#login" data-toggle="tab">Login</a> </li>
+                            <li><a href="#create" data-toggle="tab">Create Account</a> </li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane active in" id="login">
+                                <form class="form-horizontal" name='userForm' method="POST">
+                                    <fieldset>
+                                        <div id="legend">
+                                            <legend class="">Login</legend>
+                                        </div>
+                                        <div class="control-group" name="pooja_Rai" [formGroup]="LogINForm">
+                                             <!--<div>
+                                            <select2 [data]="exampleData" [options]="options" formControlName="select2_ex" [(ngModel)]="select2_ex" name="select2_ex" ngDefaultControl></select2>
+                                            </div>-->
+                                            <!-- Username -->
+                                            <label class="control-label" for="username">Username</label>
+                                            <div class="controls">
+                                               <!--<span *ngIf="formErrors.name" class="glyphicon glyphicon-remove-sign"></span>-->
+                                                 <input type="text" [(ngModel)]="userName" placeholder="Username" formControlName="name" name="username"  [class.special]="formErrors.name"> 
+                                                <div *ngIf="formErrors.name" class="alert alert-danger"> {{ formErrors.name }} </div>
+                                                        
+                                
+            <!--<div>
+            <select class="selectpicker" formControlName="select1" [ngModel]='defalaut_select_option' (ngModelChange)="onChange($event)">
+                <option [ngValue]='Select' [selected]>Select</option>
+                <option *ngFor="let entry of exampleData" [ngValue]=entry.text >{{entry.text}}</option>
+            </select>
+             <div *ngIf="defalaut_select_option==Select" class="alert alert-danger">select something</div>
+            </div>-->
+<!--0803030636444-->
+                                            </div>
+
+                                        </div>
+                                        <div class="control-group">
+                                            <!-- Password-->
+                                            <label class="control-label" for="password">Password</label>
+                                            <div class="controls">
+                                                <input type="password" id="password" [(ngModel)]="Pass" placeholder="Password" class="input-xlarge" required minlength="4" maxlength="24" name="password" #password="ngModel">
+                                        <div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger"> <span [hidden]="!password.errors.required">
+                                        Password is required
+                                        </span> <span [hidden]="!password.errors.minlength">
+                                        Password must be at least 4 characters long.
+                                        </span> <span [hidden]="!password.errors.maxlength">
+                                        Password cannot be more than 24 characters long.
+                                        </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <!-- Button -->
+                                            <div class="controls">
+                                                <button class="btn btn-success"  (click)="login()">Login</button>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="create">
+                                <form id="tab" (submit)="createUser(create)">
+                                    <div class="min:height:200px;max:height:200px" [formGroup]='signUpForm'>
+                                        <div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Required Field</strong> </div>
+                                        <!--<div class="alert alert-success" *ngIf='showAlert'>
+                                            User Added Successfully.
+                                        </div>-->
+                                        <div class="form-group">
+                                            <label for="username">Enter Username</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="username" [(ngModel)]="create.username" id="username" placeholder="Enter Username" formControlName="create_Username"> <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+
+                                                <!--<span><button (click)="checkUserAvailability()" class="btn btn-success">
+                                                    Check Availability</button>
+                                                </span-->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="InputEmail">Enter Password</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" [(ngModel)]="create.password" formControlName="create_pass"> <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                            <label for="InputEmail">Confirm Password</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="confirmPass" name="confirmPass" placeholder="Confirm Password" #confirmPass [(ngModel)]="create.confirmPass" formControlName="confirm_Pass"> <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                            </div>
+                                            <span class="alert alert-danger" *ngIf="create.password != create.confirmPass ">Password/confirm password does not match</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="InputEmail">Enter Email</label>
+                                            <div class="input-group">
+                                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" [(ngModel)]="create.email" formControlName="create_email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"> <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="address">Enter Address</label>
+                                            <div class="input-group">
+                                                <textarea name="address" id="address" class="form-control" rows="5" [(ngModel)]="create.address" formControlName="create_address"></textarea> <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                            </div>
+                                        </div>
+                                        <input type="submit" name="submit" id="submit" value="Submit" [disabled]='!signUpForm.valid || create.password != create.confirmPass' class="btn btn-info pull-right"> </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

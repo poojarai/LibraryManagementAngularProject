@@ -1,0 +1,270 @@
+<div style="min-height: 420px">
+
+    <div class="tab">
+        <ul class="list-inline">
+            <li><button [class.active]="tab == 'userListTab'" class="btn btn-small tablinks" id='userList' (click)="tab ='userListTab'">Manage Users</button>
+            </li>
+            <li><button [class.active]="tab == 'bookListTab'" class="btn btn-small tablinks" (click)="tab ='bookListTab'">Manage Books</button>
+            </li>
+            <li><button [class.active]="tab == 'requested_books'" class="btn btn-small tablinks" (click)="tab ='requested_books'">Requested Books</button>
+            </li>
+            <li><span style="padding-left: 16%;"><input style="width: 500px;font-weight: 100;" type=”text” placeholder="Search By Book / Author" [(ngModel)]="searchValue" /> </span></li>
+            <li style="padding-left: 15%;"><span style='font-size: 20px;'>Hello<b style='color: green'> {{guestName |uppercase}}</b></span></li>
+            <li style="padding-left: 1.5%;"><span><a href="#" style='font-size: 18px;text-decoration: underline;'>Sign Out</a></span></li>
+        </ul>
+    </div>
+    <div [hidden]="tab =='bookListTab' || tab =='requested_books'">
+        <div style="text-align:center">
+            <!--<button class="btn btn-small btn-success" (click)="createUser='true'"> Create New User </button> <a (click)="createUser='false'">close</a>-->
+        </div>
+
+        <div *ngIf="createUser=='true'">
+            <app-create-user [users]=users></app-create-user>
+        </div>
+
+        <div class="span4">
+            <table class="table table-striped table-condensed usersList">
+                <thead>
+                    <tr>
+                        <th style="">ID</th>
+                        <th style="">Username</th>
+                        <!--<th style="">E-mail Address</th>-->
+                        <th style="">Active</th>
+                        <th style="width:20px;"> </th>
+                        <!--<th style="width:20px;"> </th>-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of user_data | paginate: { itemsPerPage: 4, currentPage: p } | searchfilter:'firstName':searchValue;let i = index"
+                        (click)="setClickedRow(i)" [class.active]="i == selectedRow">
+                        <td>
+                            <span *ngIf="editableRow !== i">{{user.id}}
+                      </span>
+                            <input type="text" class="form-control" [(ngModel)]="user.id" value={{user.id}} *ngIf="editableRow === i" [disabled]="true">
+                        </td>
+
+                        <td>
+                            <span *ngIf="editableRow !== i">{{user.username}}</span>
+                            <input type="text" class="form-control" [(ngModel)]="user.username" value={{user.username}} *ngIf="editableRow === i">
+                        </td>
+                        <!--<td>
+                        <span *ngIf="editableRow !== i">{{user.email}}</span>
+                        <input type="text" class="form-control" [(ngModel)]="user.email" value={{user.email}} *ngIf="editableRow === i">
+                    </td>-->
+                        <td>
+                            <span *ngIf="editableRow !== i" style="color: green"> 
+                                 <input type="checkbox" (click)="disableUser($event.target.checked,user.id)"  [(ngModel)]="user.activeOrNot">
+                            </span>
+                            <!--<input type="checkbox" class="form-control" id="activeCheckBox" checked *ngIf="editableRow === i">-->
+                            <!--<input type="text" class="form-control" [(ngModel)]="user.activeOrNot" value={{user.activeOrNot}} *ngIf="editableRow === i">-->
+                        </td>
+                        <td>
+                            <button class="btn btn-small btn-primary" (click)="ViewUserDetails.open();userDetailsViewOnClick(user)">View Profile</button>
+                        </td>
+                        <!--<td>
+                            <button class="btn btn-small btn-danger" (click)="disableUser(user.id,index)" [disabled]="user.activeOrNot=='Deactivated'">Disable User</button>
+                        </td>-->
+                        <!--<td><a  id={{user.id}} class="btn btn-small btn-primary">Edit</a>
+                        id="my-input-{{i}}"   (click)="editUserData(i,user.id,user)"
+                    </td>
+
+                    <td><a (click)="deleteUser(user.id)" class="btn btn-small btn-danger">Delete</a>
+                    </td>-->
+                        </tr>
+                </tbody>
+            </table>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+
+    <div *ngIf="tab =='bookListTab'">
+        <div class="addBookBtn">
+            <button class="btn btn-small btn-success" (click)="addBookModal.open()"> Add Book </button>
+        </div>
+        <!--<div *ngIf="addBook=='true'">
+        <app-add-new-book [listOfBooks]=listOfBooks></app-add-new-book>
+    </div>-->
+        <div class="span4">
+            <table class="table table-striped table-condensed bookList">
+                <thead>
+                    <tr>
+                        <th style="min-width: 60px;">Title</th>
+                        <th style="min-width: 60px;">Author</th>
+                        <th style="min-width: 50px;">Publisher</th>
+                        <th style="width:20px;"> </th>
+                        <th style="width:20px;"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let book of books | paginate: { itemsPerPage: 5, currentPage: k } | searchBookfilter:'title':searchValue;let i=index"
+                        (click)="setClickedRow(i)" [class.active]="i == selectedRow">
+                        <td>
+                            <span *ngIf="editableRow !== i">{{book.title}}
+                      </span>
+                            <input type="text" class="form-control" [(ngModel)]="book.title" value={{book.title}} *ngIf="editableRow === i">
+                        </td>
+                        <td>
+                            <span *ngIf="editableRow !== i">{{book.author |uppercase}}
+                      </span>
+                            <input type="text" class="form-control" [(ngModel)]="book.author" value={{book.author}} *ngIf="editableRow === i">
+                        </td>
+                        <td>
+                            <span *ngIf="editableRow !== i">{{book.publisher |uppercase}}
+                      </span>
+                            <input type="text" class="form-control" [(ngModel)]="book.publisher" value={{book.publisher}} *ngIf="editableRow === i">
+                        </td>
+                        <td><a (click)="editBookData(i,book.id,book)" id={{book.id}} class="btn btn-small btn-primary">Edit</a>
+                        </td>
+                        <td><a (click)="deleteBook(book.id)" class="btn btn-small btn-danger">Delete</a>
+                        </td>
+                        </tr>
+                </tbody>
+            </table>
+            <pagination-controls (pageChange)="k = $event"></pagination-controls>
+        </div>
+    </div>
+
+
+    <div *ngIf="tab =='requested_books'">
+        <div class="span4">
+            <table class="table table-striped table-condensed requestedBookList">
+                <thead>
+                    <tr>
+                        <th style="min-width: 60px;">Title</th>
+                        <th style="min-width: 20px;">Author</th>
+                        <th style="min-width: 40px;">Publisher</th>
+                        <th style="min-width: 40px;">Status</th>
+                        <th style="min-width: 40px;">Requested User</th>
+                        <th style="min-width: 40px;">Issue Date</th>
+                        <th style="min-width: 40px;">Return Date</th>
+                        <th style="min-width: 140px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let book of books |  searchBookfilter:'title':searchValue;let i=index" (click)="setClickedRow(i)" [class.active]="i == selectedRow"
+                        [hidden]='book.order_status=="-"'>
+                        <td>
+                            <span *ngIf="editableRow !== i">{{book.title|uppercase}}
+                      </span>
+                            <input type="text" class="form-control" [(ngModel)]="book.title" value={{book.title}} *ngIf="editableRow === i">
+                        </td>
+                        <td>
+                            <span *ngIf="editableRow !== i">{{book.author|uppercase}}
+                      </span>
+                            <input type="text" class="form-control" [(ngModel)]="book.author" value={{book.author}} *ngIf="editableRow === i">
+                        </td>
+                        <td>
+                            <span *ngIf="editableRow !== i">{{book.publisher|uppercase}}
+                      </span>
+                            <input type="text" class="form-control" [(ngModel)]="book.publisher" value={{book.publisher}} *ngIf="editableRow === i">
+                        </td>
+                        <td>
+                            <span *ngIf="editableRow !== i" style="color: green">{{book.status_to_show}}
+                      </span>
+                            <input type="text" class="form-control" [(ngModel)]="book.order_status" value={{book.order_status}} *ngIf="editableRow === i">
+                        </td>
+                        <td>
+                            <span *ngIf="editableRow !== i" style="color:indigo"><b>{{book.show_requested_user | uppercase}}</b>
+                      </span>
+                            <input type="text" class="form-control" [(ngModel)]="book.requested_user" value={{book.requested_user}} *ngIf="editableRow === i">
+                        </td>
+                        <td>
+                            <span *ngIf="editableRow !== i">{{book.issuedDate | date: 'dd-MM-yyyy'}}
+                      </span>
+                            <input type="text" class="form-control" [(ngModel)]="book.issuedDate" value={{book.issuedDate}} *ngIf="editableRow === i">
+                        </td>
+                        <td>
+                            <span *ngIf="editableRow !== i">{{book.returnDate | date: 'dd-MM-yyyy'}}
+                      </span>
+                            <input type="text" class="form-control" [(ngModel)]="book.returnDate" value={{book.returnDate}} *ngIf="editableRow === i">
+                        </td>
+
+                        <td>
+                            <button (click)="approve_book_request(book.id)" id="approve" [disabled]='book.order_status=="Approved By Admin" || book.order_status=="Rejected"'
+                                class="btn btn-small btn-success">Approve</button>
+                                <button (click)="reject_book_request(book.id)" id="reject" [disabled]='book.order_status=="Approved By Admin"|| book.order_status=="Rejected"'
+                                    class="btn btn-small btn-danger">Reject</button>
+                        </td>
+                        </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+<modal #ViewUserDetails>
+    <modal-header>
+        <h4>User Details</h4>
+    </modal-header>
+    <modal-content>
+        <div class="form-group">
+            <label for="title" class="font-15">Name -</label>
+            <label for="" class="viewUser">{{_view_name | uppercase}}</label>
+        </div>
+        <div class="form-group">
+            <label for="" class="font-15">Email -</label>
+            <label for="" class="viewUser">{{_view_email}}</label> </div>
+        <div class="form-group">
+            <label for="" class="font-15">Address - </label>
+            <label for="" style="padding-left: 12%;" class="viewUser">{{_view_address}}</label> </div>
+        <div class="form-group">
+            <label for="" class="font-15">Status -</label>
+            <label for="" style="padding-left: 15l%;" class="viewUser">{{_view_activeStatus}}</label> </div>
+    </modal-content>
+    <modal-footer>
+        <button class="btn btn-primary" (click)="ViewUserDetails.close()">Close</button>
+    </modal-footer>
+</modal>
+
+
+<modal #addBookModal>
+    <modal-header>
+        <h2>Add New Book</h2>
+    </modal-header>
+    <modal-content>
+        <span style="color: red;padding-bottom: 1%">* All the details are mandatory.</span>
+        <form name="form">
+            <div [formGroup]='addBookForm'>
+                <input type="hidden" name="id" [(ngModel)]="model.id" formControlName='addHiddenId' />
+                <div class="form-group">
+                    <label for="title">Title Of Book</label>
+                    <input type="text" class="form-control" name="title" [(ngModel)]="model.title" formControlName='addTitle' />
+                    <!--<span  [hidden]="(!addBookForm.controls['addTitle'].invalid) || addBookForm.controls['addTitle'].untouched "><b style='color: red;'>**Title is required</b></span> -->
+                </div>
+                <div class="form-group">
+                    <label for="author">Authore</label>
+                    <input type="text" class="form-control" name="author" [(ngModel)]="model.author" formControlName='addAuthor' />
+                    <!--<span  [hidden]="!addBookForm.controls['addAuthor'].invalid || addBookForm.controls['addAuthor'].untouched"><b style='color: red;'>**Author is required</b></span> -->
+                </div>
+                <div class="form-group">
+                    <label for="publisher">Publisher</label>
+                    <input type="text" class="form-control" name="publisher" [(ngModel)]="model.publisher" formControlName='addPublisher' />
+                    <!--<span  [hidden]="!addBookForm.controls['addPublisher'].invalid || addBookForm.controls['addPublisher'].untouched"><b style='color: red;'>**Publisher is required</b></span>-->
+                </div>
+                <div class="form-group">
+                    <label for="status">Availablity</label>
+                    <select class="form-control" [(ngModel)]="model.status" formControlName='addStatus'>
+                    <option value="" [selected]=true>Select</option>
+                    <option value="available">Available</option>
+                    <option value="not_available">Not Available</option>
+                </select>
+                </div>
+                <div class="form-group">
+                    <label for="summary">Book Summary</label>
+                    <textarea rows="3" class="form-control" name="summary" [(ngModel)]="model.summary" formControlName='addSummary'>
+                </textarea>
+                </div>
+
+
+            </div>
+        </form>
+    </modal-content>
+    <modal-footer>
+        <button [disabled]="loading" class="btn btn-success" [disabled]='addBookForm.invalid' (click)='addNewBook(model,$event);addBookModal.close()'>Add</button>
+        <button class="btn btn-primary" (click)="addBookModal.close();closeAddBook()">Close</button>
+    </modal-footer>
+</modal>

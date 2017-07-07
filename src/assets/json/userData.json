@@ -1,0 +1,11 @@
+[{
+    "username":"ayushi","password":"ayushi","confirmPass":"ayushi","email":"ayushi@gmail.com","address":"ayushi","id":"IIIPL_101","activeOrNot":true
+    },{
+    "username":"sarita","password":"sarita","confirmPass":"sarita","email":"ayuhi@ril.com","address":"khsal","id":"IIIPL_103","activeOrNot":true
+    },{
+    "username":"aarti","password":"aarti","confirmPass":"aarti","email":"ayushi@gmail.com","address":"welcome","id":"IIIPL_100","activeOrNot":true
+    },{
+     "username":"Pooja_rai","password":"pooja","confirmPass":"pooja","email":"pooja@gmail.com","address":"ujjain","id":"IIIPL_106","activeOrNot":false
+    },{
+    "username":"anita","password":"asyuhi","confirmPass":"asyuhi","email":"a@gmail.com","address":"ujjain , MP","id":"IIIPL_102","activeOrNot":false
+}]

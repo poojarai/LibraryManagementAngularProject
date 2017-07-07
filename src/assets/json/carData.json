@@ -1,0 +1,88 @@
+[
+{
+"name": "Ethel Price",
+"gender": "female",
+"company": "Johnson, Johnson and Partners, LLC CMP DDC",
+"age": 22,
+"color":"red",
+"priority":"high"
+},
+{
+"name": "Claudine Neal",
+"gender": "female",
+"company": "Sealoud",
+"age": 55,
+"color":"blue",
+"priority":"low"
+},
+{
+"name": "Beryl Rice",
+"gender": "female",
+"company": "Velity",
+"age": 67,
+"color":"red",
+"priority":"medium"
+},
+{
+"name": "Wilder Gonzales",
+"gender": "male",
+"company": "Geekko",
+"color":"green",
+"priority":"low"
+},
+{
+"name": "Georgina Schultz",
+"gender": "female",
+"company": "Suretech",
+"color":"red",
+"priority":"high"
+},
+{
+"name": "Carroll Buchanan",
+"gender": "male",
+"company": "Ecosys",
+"color":"red",
+"priority":"low"
+},
+{
+"name": "Valarie Atkinson",
+"gender": "female",
+"company": "Hopeli",
+"color":"yellow",
+"priority":"medium"
+},
+{
+"name": "Schroeder Mathews",
+"gender": "male",
+"company": "Polarium",
+"color":"black",
+"priority":"high"
+},
+{
+"name": "Lynda Mendoza",
+"gender": "female",
+"company": "Dogspa",
+"color":"pink",
+"priority":"high"
+},
+{
+"name": "Sarah Massey",
+"gender": "female",
+"company": "Bisba",
+"color":"red",
+"priority":"low"
+},
+{
+"name": "Robles Boyle",
+"gender": "male",
+"company": "Comtract",
+"color":"orange",
+"priority":"medium"
+},
+{
+"name": "Evans Hickman",
+"gender": "male",
+"company": "Parleynet",
+"color":"red",
+"priority":"high"
+}]

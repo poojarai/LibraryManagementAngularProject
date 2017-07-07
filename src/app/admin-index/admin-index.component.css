@@ -1,0 +1,59 @@
+.addBookBtn {
+    text-align: left;
+    padding-top: 2%;
+    padding-left: 5%;
+}
+
+.bookList>thead>tr>th {
+    font-size: 16px;
+}
+
+.bookList,
+.requestedBookList {
+    margin-left: 9%;
+    margin-top: 3%;
+    width: 80% !important;
+}
+
+.userList>thead>tr>th {
+    font-size: 16px;
+}
+
+.requestedBookList>thead>tr>th {
+    font-size: 16px;
+}
+
+div.tab ul li button.active {
+    background-color: #32140b;
+    color: white;
+}
+
+div.tab ul li button {
+    border-radius: 0;
+}
+
+div.tab ul li {
+    margin-left: -0.8%;
+}
+.usersList{
+    margin-left: 22%;
+    margin-top: 3%;
+    width: 50%;
+}
+input[type="checkbox"]:checked ::after {
+    content: '';
+    position: absolute;
+    width: 1.2ex;
+    height: 0.4ex;
+    background: rgba(0, 0, 0, 0);
+    top: 0.9ex;
+    left: 0.4ex;
+    border: 3px solid red;
+    border-top: none;
+    border-right: none;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}

@@ -1,0 +1,168 @@
+<div style="min-height: 420px">
+    <div class="guestTab">
+        <ul class="list-inline">
+            <li><button [class.active]="tab == 'allBooksTab'" class="btn btn-small" (click)="tab ='allBooksTab';updateView()">Books</button>                </li>
+            <li><button [class.active]="tab == 'myAccTab'" class="btn btn-small" (click)="tab ='myAccTab'">My Account</button>                </li>
+            <!--<li><button [class.active]="tab == 'viewProfile'" class="btn btn-small" (click)="tab ='viewProfile'">View/Edit Profile</button> </li>-->
+            <li><span style="padding-left: 16%;"><input style="width: 500px;font-weight: 100;" type=”text” placeholder="Search By Book / Author" [(ngModel)]="searchValue" /> </span></li>
+            <li style="padding-left: 30%;"><span style='font-size: 20px;'>Hello<b style='color: green'> {{guestName |uppercase}}</b></span></li>
+            <li style="padding-left: 1.5%;"><span><a href="#" style='font-size: 18px;text-decoration: underline;'>Sign Out</a></span></li>
+        </ul>
+
+    </div>
+    <div [hidden]="tab =='myAccTab' || tab =='viewProfile'">
+        <div *ngIf="rentBook=='true'">
+            <div class="register">
+                <form name="form" #f="ngForm" novalidate>
+                    <div class="form-group">
+                        <label for="title" class="font-15">Title Of Book</label>
+                        <input type="text" class="form-control" name="title" [value]='bTitle' [disabled]=true /> </div>
+                    <div class="form-group">
+                        <label for="author" class="font-15">Authore</label>
+                        <input type="text" class="form-control" name="title" [value]='bAuthor' [disabled]=true /> </div>
+                    <div class="form-group">
+                        <label for="publisher" class="font-15">Publisher</label>
+                        <input type="text" class="form-control" name="publisher" [value]="bPublisher" [disabled]=true/> </div>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <label for="issueDate" class="font-15">Issue Date</label>
+                            <ng2-datepicker [(ngModel)]="_date.issue" name="issue_date" [value]="bIssueDate" [options]="options"></ng2-datepicker>
+                            <label for="returnDate" class="font-15">Return Date</label>
+                            <ng2-datepicker [(ngModel)]="_date.return" name="return_date" [value]="bReturnDate" [options]="options"></ng2-datepicker>
+                        </div>
+                    </div>
+                    <button (click)="rentBook='false';requestBook(_date)" class="btn btn-small btn-primary">Order Now</button>
+                    <button (click)="rentBook='false'" class="btn btn-small btn-primary">Cancel</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="span4">
+            <table class="table table-striped table-condensed userList">
+                <tr>
+                    <!--<th style="min-width: 60px;">Book View</th>-->
+                    <th style="min-width: 30px;">Title</th>
+                    <th style="min-width: 30px;">Author</th>
+                    <th style="min-width: 30px;">Publisher</th>
+                    <th style="min-width: 30px;">Availibility</th>
+                    <th style="min-width: 30px;">Reuquested User</th>
+                    <th style="min-width: 50px;">Status</th>
+                    <th style="width:298px;">Action</th>
+                </tr>
+                <tbody>
+                    <tr *ngFor="let book of books | paginate: { itemsPerPage: 5, currentPage: p } | searchBookfilter:'title':searchValue; let i =index"
+                        (click)="setClickedRow(i)" [class.active]="i == selectedRow">
+                        <!--<td><img style='max-height: 30%;min-height: 30%' src="{{book.path}}" /> </td>-->
+                        <td>{{book.title}}</td>
+                        <td>{{book.author | titleCase}}</td>
+                        <td>{{book.publisher | titleCase}}</td>
+                        <td>{{book.status}}</td>
+                        <td style="color:mediumpurple"><b>{{book.show_requested_user | uppercase}}</b></td>
+                        <td style="color: green">{{book.status_to_show}}</td>
+                        <td>
+                            <button [disabled]='' (click)="viewBookModal.open();showBookDetails(book)" class="btn btn-small btn-primary">View Book Details</button>
+                            <button (click)="rentBook='true';orderBook(book,i)" [disabled]='book.flag || book.order_status=="Approved By Admin"||book.order_status=="Pending"'
+                                class="btn btn-small btn-primary">Order</button>
+                                <button (click)="cancelRequest(book.id)" [disabled]='book.flag || book.order_status=="Approved By Admin"' class="btn btn-small btn-danger">Cancel</button>
+                        </td>
+                        </tr>
+                </tbody>
+            </table>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+    <div *ngIf="tab =='myAccTab'">
+        <div class="span4">
+            <table class="table table-striped table-condensed userList" id='returnTable'>
+                <tr>
+                    <!--<th style="min-width: 60px;">Book View</th>-->
+                    <th style="min-width: 60px;">Title</th>
+                    <th style="min-width: 60px;">Author</th>
+                    <th style="min-width: 50px;">Publisher</th>
+                    <th style="min-width: 50px;">Issued Date</th>
+                    <th style="min-width: 50px;">Last Date To Return</th>
+                    <th style="width:20px;">Action</th>
+                </tr>
+                <tbody>
+                    <tr *ngFor="let book of my_reuested_book | searchBookfilter:'title':searchValue;let i =index" (click)="setClickedRow(i)"
+                        [class.active]="i == selectedRow" [hidden]='book.order_status=="Pending" || book.order_status=="Rejected" || book.order_status=="-" || book.requested_user != guestName'>
+
+                        <!--<td><img style='max-height: 30%;min-height: 30%' src="{{book.path}}" /> </td>-->
+                        <td>{{book.title}}</td>
+                        <td>{{book.author}}</td>
+                        <td>{{book.publisher}}</td>
+                        <td>{{book.issuedDate | date: 'dd-MM-yyyy'}}</td>
+                        <td>{{book.returnDate | date: 'dd-MM-yyyy'}}</td>
+                        <td>
+                            <button (click)="myModal.open();returnBookSelectedData(book);" class="btn btn-small btn-primary">Return</button>
+                        </td>
+                        </tr>
+                        <tr *ngIf='count==0'>
+                            <td colspan="7" style="text-align: center;color: blue"><b>No Book Available</b></td>
+                        </tr>
+                </tbody>
+            </table>
+            <div style='font-size: 22px; padding-left: 68%;'>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="tab == 'viewProfile'">
+        <h1>Hello </h1>
+    </div>
+</div>
+
+<modal #myModal>
+    <modal-header>
+        <h4>Message</h4>
+    </modal-header>
+    <modal-content>
+        <h3 style='color: blue'> Return Book to Admin asap </h3>
+        <div class="form-group">
+            <label for="title" class="font-15">Title Of Book</label>
+            <input type="text" class="form-control" name="title" [value]='_return_title' [disabled]=true /> </div>
+        <div class="form-group">
+            <label for="author" class="font-15">Authore</label>
+            <input type="text" class="form-control" name="title" [value]='_return_author' [disabled]=true /> </div>
+        <div class="form-group">
+            <label for="publisher" class="font-15">Publisher</label>
+            <input type="text" class="form-control" name="publisher" [value]='_return_publisher' [disabled]=true/> </div>
+    </modal-content>
+    <modal-footer>
+        <button class="btn btn-primary" (click)="myModal.close();">close</button>
+    </modal-footer>
+</modal>
+
+
+
+<modal #viewBookModal>
+    <modal-header>
+        <h2>View Book Details</h2>
+    </modal-header>
+    <modal-content>
+        <span style="padding-left: 32%;"><img src="{{_show_book_img}}" style="height: 200px"/></span>
+        <form name="form">
+            <div>
+                <div class="form-group">
+                    <label for="title">Title Of Book -</label>
+                    <label class="view_book_detail">{{_show_book_name}}</label>
+                </div>
+                <div class="form-group">
+                    <label for="author">Authore-</label>
+                    <label class="view_book_detail">{{_show_book_author}}</label>
+                </div>
+                <div class="form-group">
+                    <label for="publisher">Publisher -</label>
+                    <label class="view_book_detail">{{_show_book_publisher}}</label>
+                </div>
+                <div class="form-group">
+                    <label for="status">Book Summary -</label>
+                    <label style="font-weight: 100">{{_show_book_summary}}</label>
+                </div>
+            </div>
+        </form>
+    </modal-content>
+    <modal-footer>
+        <button class="btn btn-primary" (click)="viewBookModal.close();">Close</button>
+    </modal-footer>
+</modal>

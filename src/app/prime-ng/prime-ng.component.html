@@ -1,0 +1,103 @@
+<h3 style="text-align: center;color: blueviolet">
+	Prime ng Example
+</h3>
+<!--Progress Bar code Start-->
+<div style='padding-left: 27%'>
+	<ul id="progressbar">
+		<li [class.active]="selectedCircle =='in_progress'"><span style="margin-left: -24px"><b>In Progress</b></span>
+		</li>
+		<li [class.active]="selectedCircle =='approve'"><span style="margin-left: -15px"><b>Approved</b></span>
+		</li>
+		<li [class.active]="selectedCircle =='build'"><span style="margin-left: -8px"><b>Build</b></span>
+		</li>
+		<li [class.active]="selectedCircle =='pre_dev'"><span style="margin-left: -24px"><b>Pre-Devlopment</b></span>
+		</li>
+		<li [class.active]="selectedCircle =='deploy'"><span style="margin-left: -20px"><b>Deployed</b></span>
+		</li>
+		<li [class.active]="selectedCircle =='last_stage'"><span style="margin-left: -24px"><b>Last Stage</b></span>
+		</li>
+	</ul>
+</div>
+<!--Progress Bar code end-->
+
+<div class="addCutomDataType">
+	<label for="name">Name</label>
+	<input type="text" pInputText size="50" name="name">
+	<label for="dt">Data Type</label>
+	<!--<select>
+		<option value="">Select</option>
+		<option value="string">String</option>
+		<option value="number">Number</option>
+	</select>-->
+	<p-dropdown id="abcd" [options]="dataTypeOptions" [style]="{'overflow':'visible'}" (onChange)="getDatatypeOnChange($event)"
+		styleClass="ui-column-filter"></p-dropdown>
+
+		<label for="range">Variable Range</label>
+		<input type="text" pInputText size="50" [(ngModel)]="num_ranges" name="range" (keypress)="patternForNumber == 'number' ? onlyNumberKey($event) : ''">
+		<button pButton type="button">Add</button>
+</div>
+
+<!--Global Filter start-->
+<div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none;text-align: center"> <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+	<input #gb type="text" pInputText size="50" placeholder="Global Filter"> </div>
+<!--Global Filter End-->
+
+<div>
+	<p-multiSelect [options]="columns" defaultLabel="Select Column" [(ngModel)]="selectedCities" [style]="{'width': '170px'}"
+		(onChange)="onUserChange($event)" styleClass="ui-column-filter ui-dropdown"></p-multiSelect>
+</div>
+
+<!--Main Table Code start-->
+<div class="prime_table_css">
+	<p-dataTable #dt [value]="carData" [loading]="loading" selectionMode="single" dataKey="name" scrollable="true" scrollHeight="200px"
+		[rows]=10 [paginator]="true" [rowsPerPageOptions]="[5,10,15,100]" [globalFilter]="gb">
+
+		<p-column field="name" header="Name" [sortable]="true" [filter]="true" filterPlaceholder="Search" [hidden]='hideNameCol'></p-column>
+
+		<p-column field="gender" header="Gender" class="viewOverflow" [filter]="true" filterMatchMode="contains" [hidden]='hideGenderCol'>
+			<ng-template pTemplate="filter" let-col>
+				<p-dropdown [options]="brands" [style]="{'overflow':'visible'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)"
+					styleClass="ui-column-filter" appendTo="body"></p-dropdown>
+			</ng-template>
+		</p-column>
+
+		<p-column field="company" header="Company" [hidden]='hideCompanyCol'></p-column>
+
+		<p-column field="priority" header="Priority" [style]="{'overflow':'visible'}">
+			<ng-template let-col let-car="rowData" pTemplate="body"> <span [style.background-color]="getColor(car[col.field])" class="addColorClass">{{car[col.field]}}</span> </ng-template>
+		</p-column>
+
+		</p-dataTable>
+</div>
+<!--Main Table Code end-->
+
+<!--<div style="text-align: center">
+  <h3 class="first">checkbox Example</h3>
+  <div class="ui-g" style="width:250px;margin-bottom:10px">
+      <div class="ui-g-12"><p-checkbox name="group1" value="New York" label="New York" [(ngModel)]="selectedValues"></p-checkbox></div>
+      <div class="ui-g-12"><p-checkbox name="group1" value="San Francisco" label="San Francisco" [(ngModel)]="selectedValues"></p-checkbox></div>
+      <div class="ui-g-12"><p-checkbox name="group1" value="Los Angeles" label="Los Angeles" [(ngModel)]="selectedValues"></p-checkbox></div>
+  </div>
+</div>-->
+
+<!--Query Builder Example Starts-->
+<h3>Query Builder Example</h3>
+<div *ngFor="let show of showList">
+	<div style="padding-left: 10%" *ngFor="let item of addList">
+		<label>{{item.text}}</label>
+		<select class="" [ngModel]="dynamic" (blur)="validateAddForQueryBuilder()"  name="dynamic" id="dynamic{{show.index}}" #abc>   
+		      <option *ngFor="let role of typeList" value= {{role.text}}>
+             {{role.text}}
+         </option>
+      </select>
+		<input type="text" placeholder="name" (blur)="validateAddForQueryBuilder()"  id="input{{show.index}}" />
+	</div>
+</div>
+
+<span *ngIf="shwoQueryBuilder" style="color: darkred; padding-left: 11%">Please fill all the required fields</span>
+
+<div style="padding-left: 13%;padding-top: 2%;">
+	<button value="Add" class="btn btn-success" (click)="validateAddForQueryBuilder();demo();">Add</button>
+	<button value="Add" class="btn btn-success" (click)="saveList();">Save</button>
+</div>
+<!--Query Builder Example Ends-->
